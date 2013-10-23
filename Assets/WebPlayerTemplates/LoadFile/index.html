@@ -61,31 +61,34 @@
 		-->
 		
 		  function handleFileSelect(evt) {
-			alert('listener fired');
+
+			if(!u){
+				alert('unity not loaded yet!');
+				return;
+			}
+			
 			var files = evt.target.files; // FileList object
 
 			// files is a FileList of File objects. List some properties.
 			var output = [];
 			
 			for (var i = 0, f; f = files[i]; i++) {
-				if(u){
-					alert('should call LoadFile on FileLoader game object');
-					//call unity function to upload f.value
-					u.getUnity().SendMessage("FileLoader", "LoadFile", "hello");
-				}
+				
+				//http://www.html5rocks.com/en/tutorials/file/dndfiles/
+				var reader = new FileReader();
+				
+				// Closure to capture the file information.
+				reader.onload = (function(theFile) {
+					return function(e) {
+						//alert(e.target.result);
+						//send file content to unity
+						u.getUnity().SendMessage("FileLoader", "LoadFile", e.target.result);
+						//http://dev.w3.org/2006/webapi/FileAPI/#dfn-load-event
+					};
+				})(f);
+				reader.readAsText(f);
 			}
-			/*
-			for (var i = 0, f; f = files[i]; i++) {
-			  output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-						  f.size, ' bytes, last modified: ',
-						  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-						  '</li>');
-			}
-			document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-			*/
 		  }
-		
-		
 
 		</script>
 		

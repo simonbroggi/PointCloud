@@ -15,10 +15,10 @@ public class FileLoader : MonoBehaviour {
 	
 	public void LoadFile(string f){
 		//http://answers.unity3d.com/questions/9960/how-do-i-let-the-user-select-a-local-file-for-my-a.html
-		dbgString = "should load ";
+		dbgString = "should load "+f;
 	}
 	string dbgString = "nothing jet";
 	void OnGUI(){
-		GUI.Label(new Rect(20, Screen.height-30, 220, 80), dbgString);
+		GUI.Label(new Rect(20, Screen.height/2, 220, 80), dbgString);
 	}
 }
