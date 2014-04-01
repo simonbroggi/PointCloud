@@ -1,6 +1,6 @@
-Shader "Particles/Unlit" {
+Shader "Custom/Point" {
 Properties {
-	_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
+	//_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 	//_MainTex ("Particle Texture", 2D) = "white" {}
 	//_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
 }
@@ -32,7 +32,7 @@ Category {
 			#include "UnityCG.cginc"
 
 			//sampler2D _MainTex;
-			fixed4 _TintColor;
+			//fixed4 _TintColor;
 			
 			struct appdata_t {
 				float4 vertex : POSITION;
@@ -76,7 +76,8 @@ Category {
 				//i.color.a *= fade;
 				//#endif
 				
-				return 2.0f * i.color * _TintColor;// * tex2D(_MainTex, i.texcoord);
+				//return 2.0f * i.color * _TintColor;// * tex2D(_MainTex, i.texcoord);
+				return i.color;
 			}
 			ENDCG 
 		}
