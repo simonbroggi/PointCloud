@@ -13,7 +13,7 @@ Category {
 	//AlphaTest Greater .01
 	AlphaTest Off
 	ColorMask RGB
-	Cull Off Lighting Off ZWrite Off Fog { Mode Off }
+	Cull Off Lighting Off ZWrite On Fog { Mode Off }
 	BindChannels {
 		Bind "Color", color
 		Bind "Vertex", vertex
