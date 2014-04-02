@@ -56,8 +56,10 @@ public class FileLoader : MonoBehaviour {
 		GUI.Label(new Rect(20, Screen.height/2, 220, 80), dbgString);
 		float newPointSize = GUI.HorizontalSlider(new Rect(50, 50, 220, 50), pc.pointSize, 0.001f, 2f);
 		if(newPointSize != pc.pointSize){
-			pc.pointSize = newPointSize;
-			pc.ResetParticles();
+			foreach(PointCloud c in clouds){
+				c.pointSize = newPointSize;
+				c.ResetParticles();
+			}
 		}
 	}
 	public void ResetParticlesLater(){
