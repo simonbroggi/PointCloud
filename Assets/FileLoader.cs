@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class FileLoader : MonoBehaviour {
-	
-	public PointCloud pointCloudPrefab;
+
 
 	private List<PointCloud> clouds = new List<PointCloud>();
 
+
+	public Mesh cloudMesh;
 	// Use this for initialization
 	void Start () {
 		dbgString = "started";
 
 		TextAsset ptsFile = Resources.Load("examplePts") as TextAsset;
 
-		LoadFile(ptsFile.text);
+		//LoadFile(ptsFile.text);
+		LoadMesh(cloudMesh);
+
 
 		//LoadFile("7     \n0.5955505 0.8973999 0.2449951 -1934 125 118 102\n35.5955505 -179.8973999 1861.2449951 -1934 125 118 102\n35.5770302 -179.9205170 1861.1866455 -1913 181 173 160\n35.5856400 -179.9092102 1861.1351318 -1921 161 155 141\n35.5833511 -179.9119873 1861.0806885 -1917 194 188 174\n35.5838661 -179.9111328 1861.0270996 -1912 195 189 173\n35.5815773 -179.9139099 1860.9726563 -1914 193 187 171");
 
@@ -24,7 +27,7 @@ public class FileLoader : MonoBehaviour {
 	private int num = 1;
 	public Material pointsMaterial;
 	public Transform cameraRotater;
-	public PointCloud pc;
+	private PointCloud pc;
 	public void LoadFile(string f){
 		//http://answers.unity3d.com/questions/9960/how-do-i-let-the-user-select-a-local-file-for-my-a.html
 		//dbgString = "should load "+f;
@@ -51,6 +54,18 @@ public class FileLoader : MonoBehaviour {
 		num++;
 		
 	}
+	public void LoadMesh(Mesh m){
+		GameObject go = new GameObject("PointCloudMesh");
+		pc = go.AddComponent<PointCloud>();
+		pc.particleSystem.renderer.material = pointsMaterial;
+
+		pc.LoadPointsFromMesh(m);
+		pc.ResetParticles();
+		cameraRotater.position = pc.transform.position;
+
+		clouds.Add(pc);
+	}
+
 	string dbgString = "nothing jet";
 	void OnGUI(){
 		GUI.Label(new Rect(20, Screen.height/2, 220, 80), dbgString);

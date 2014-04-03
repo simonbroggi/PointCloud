@@ -47,6 +47,24 @@ public class PointCloud : MonoBehaviour {
 	void OnDrawGizmos(){
 		Gizmos.DrawWireCube(transform.position, cloudDimensions);
 	}
+
+	public void LoadPointsFromMesh(Mesh m){
+		points = new CloudPoint[m.vertexCount];
+		particleSystem.maxParticles = m.vertexCount;
+		Debug.Log(m.vertices.Length+" Verts;  "+m.colors.Length+" colors;  "+m.colors32.Length+" color32");
+		for(int i=0; i<m.vertexCount; i++){
+			points[i] = new CloudPoint();
+			points[i].pos = m.vertices[i];
+
+			if(m.colors.Length > i){
+				points[i].col = m.colors[i];
+			}
+			else{
+				points[i].col = Color.red;
+			}
+		}
+	}
+
 	public void LoadPointsFromPts(string f){
 		string[] lines = f.Split('\n');
 		
