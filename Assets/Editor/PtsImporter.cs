@@ -8,9 +8,6 @@ public class PtsImporter : AssetPostprocessor {
 
 	static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPath){
 		foreach(string s in importedAssets){
-			if(s.Contains("batik")){
-				Debug.Log("imported "+s);
-			}
 			if(s.EndsWith(".pts")){
 
 				string prefabPath = s.Substring(0, s.Length-4) + ".prefab";
