@@ -97,9 +97,9 @@ public class PointCloud : MonoBehaviour {
 			points[i]=new CloudPoint();
 			//rotate 90
 			points[i].pos = new Vector3( float.Parse(values[0]), float.Parse(values[2]), -float.Parse(values[1]) );
-			points[i].col = new Color32(byte.Parse(values[4]), byte.Parse(values[5]), byte.Parse(values[6]), byte.MaxValue);
+			points[i].col = new Color32(byte.Parse(values[values.Length-3]), byte.Parse(values[values.Length-2]), byte.Parse(values[values.Length-1]), byte.MaxValue);
 
-			//ignoring value[3] What is it???
+		    //aha! http://www.las-vegas.uni-osnabrueck.de/index.php/tutorials2/8-understanding-file-formats-pts-and-3d-files
 
 			//set min max
 			if(points[i].pos.x > maxX) maxX = points[i].pos.x;
