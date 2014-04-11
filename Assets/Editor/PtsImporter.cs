@@ -14,19 +14,14 @@ public class PtsImporter : AssetPostprocessor {
 				GameObject go = new GameObject("tempObject");
 				go.hideFlags = HideFlags.NotEditable;
 
-
-				/*
-				ParticleSystem ps = go.AddComponent<ParticleSystem>();
-				ps.loop=false;
-				ps.enableEmission=false;
-				ps.playOnAwake=false;
-				ps.renderer.castShadows=false;
-				ps.renderer.receiveShadows=false;
-				*/
-
+				ParticleEmitter pe = (ParticleEmitter)go.AddComponent("EllipsoidParticleEmitter");
+				ParticleRenderer pr = go.AddComponent<ParticleRenderer>();
 				PointCloud pc = go.AddComponent<PointCloud>();
 
-				go.particleSystem.renderer.material = AssetDatabase.LoadAssetAtPath("Assets/Point.mat", typeof(Material)) as Material;
+				pe.useWorldSpace = false;
+				pr.castShadows = false;
+				pr.receiveShadows = false;
+				pr.material = AssetDatabase.LoadAssetAtPath("Assets/Point.mat", typeof(Material)) as Material;
 
 				//prefab.hideFlags = HideFlags.NotEditable;
 				try{
@@ -62,6 +57,6 @@ public class PtsImporter : AssetPostprocessor {
 			}
 		}
 
-		Debug.Log("OnPostprocess *.pts Assets end");
+		//Debug.Log("OnPostprocess *.pts Assets end");
 	}
 }

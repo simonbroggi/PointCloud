@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 //[ExecuteInEditMode]
-[RequireComponent (typeof(ParticleSystem))]
+
+[RequireComponent (typeof(ParticleEmitter))]
+[RequireComponent (typeof(ParticleRenderer))]
+
 public class PointCloud : MonoBehaviour {
 
-	private ParticleSystem.Particle[] particles; //probably need to keep an own struct array of points in memory. scaling!
+	private Particle[] particles; //probably need to keep an own struct array of points in memory. scaling!
 
 	[System.Serializable]
 	public class CloudPoint{
@@ -17,30 +21,29 @@ public class PointCloud : MonoBehaviour {
 
 	public float pointSize = 1f;
 
+	public int nPoints{
+		get{
+			return points.Length;
+		}
+	}
+
 	public void ResetParticles(){
-		particles = new ParticleSystem.Particle[points.Length];
-		for(int i=0; i<points.Length; i++){
-			if(i < 10){
-				//Debug.Log("point at "+points[i].pos);
-			}
+		particles = new Particle[ Mathf.Min(points.Length, 16250) ];
+		// 16250 seems to be max for legacy particles...
+		for(int i=0; i<Mathf.Min(points.Length, 16250); i++){
+			particles[i].energy = float.PositiveInfinity;
 			particles[i].position = points[i].pos;
 			particles[i].color = points[i].col;
 			particles[i].size = pointSize;
-			//if(i%10==0) Debug.Log(points[i].pos);
 		}
-		particleSystem.SetParticles(particles, points.Length);
-		//Debug.Log("reset "+points.Length+" particles");
+		Debug.Log("Assigning "+particles.Length+" Particles");
+		particleEmitter.particles = particles;
 	}
-	void Awake(){
-		particleSystem.loop=false;
-		particleSystem.enableEmission=false;
-		particleSystem.playOnAwake=false;
-		particleSystem.renderer.castShadows=false;
-		particleSystem.renderer.receiveShadows=false;
-	}
+	
 	void OnEnable(){
 		ResetParticles();
 	}
+
 
 	[SerializeField]
 	private Vector3 cloudDimensions;
@@ -50,7 +53,7 @@ public class PointCloud : MonoBehaviour {
 
 	public void LoadPointsFromMesh(Mesh m){
 		points = new CloudPoint[m.vertexCount];
-		particleSystem.maxParticles = m.vertexCount;
+		//particleSystem.maxParticles = m.vertexCount;
 		Debug.Log(m.vertices.Length+" Verts;  "+m.colors.Length+" colors;  "+m.colors32.Length+" color32");
 		for(int i=0; i<m.vertexCount; i++){
 			points[i] = new CloudPoint();
@@ -79,7 +82,7 @@ public class PointCloud : MonoBehaviour {
 
 		//Debug.Log("num points: "+numPoints);
 		points = new CloudPoint[numPoints];
-		particleSystem.maxParticles = numPoints;
+		//particleSystem.maxParticles = numPoints;
 		if(numPoints <= 0){
 			Debug.LogWarning("no points in the file");
 			return;
@@ -116,7 +119,6 @@ public class PointCloud : MonoBehaviour {
 			cp.pos -= centerPos;
 		}
 		transform.position = centerPos;
-
 	}
 	
 	

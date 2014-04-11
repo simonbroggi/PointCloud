@@ -13,9 +13,9 @@ public class PointCloudEditor : Editor {
 
 		pointSize = serializedObject.FindProperty("pointSize");
 
-		pc.particleSystem.hideFlags = HideFlags.HideInInspector;
+		//pc.particleEmitter = HideFlags.HideInInspector;
+
 		pc.ResetParticles();
-		pc.particleSystem.Pause();
 	}
 
 	public override void OnInspectorGUI(){
@@ -31,8 +31,9 @@ public class PointCloudEditor : Editor {
 			if(t is PointCloud){
 				PointCloud pc = t as PointCloud;
 				GUILayout.Label(pc.transform.position.ToString());
+				GUILayout.Label(pc.nPoints+" Points");
 				pc.ResetParticles();
-				pc.particleSystem.Pause();
+				//pc.particleSystem.Pause();
 			}
 		}
 	}
