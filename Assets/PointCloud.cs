@@ -28,9 +28,9 @@ public class PointCloud : MonoBehaviour {
 	}
 
 	public void ResetParticles(){
-		particles = new Particle[ Mathf.Min(points.Length, 16250) ];
+		particles = new Particle[points.Length];
 		// 16250 seems to be max for legacy particles...
-		for(int i=0; i<Mathf.Min(points.Length, 16250); i++){
+		for(int i=0; i<points.Length; i++){
 			particles[i].energy = float.PositiveInfinity;
 			particles[i].position = points[i].pos;
 			particles[i].color = points[i].col;
