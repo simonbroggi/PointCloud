@@ -14,11 +14,15 @@ public class PointCloud : MonoBehaviour {
 
 	[SerializeField]
 	private CloudPoint[] points = new CloudPoint[0];
-
+	public int nPoints{
+		get { return points.Length; }
+	}
 	public float pointSize = 1f;
 
 	public void ResetParticles(){
 		particles = new ParticleSystem.Particle[points.Length];
+		//particleSystem.Emit(points.Length);
+
 		for(int i=0; i<points.Length; i++){
 			if(i < 10){
 				//Debug.Log("point at "+points[i].pos);
@@ -26,20 +30,32 @@ public class PointCloud : MonoBehaviour {
 			particles[i].position = points[i].pos;
 			particles[i].color = points[i].col;
 			particles[i].size = pointSize;
+			particles[i].lifetime = float.PositiveInfinity;
+			particles[i].velocity = Vector3.zero;
 			//if(i%10==0) Debug.Log(points[i].pos);
+
+			//particleSystem.Emit(points[i].pos, Vector3.zero, pointSize, float.PositiveInfinity, Color.red);
+
 		}
 		particleSystem.SetParticles(particles, points.Length);
-		//Debug.Log("reset "+points.Length+" particles");
+		particleSystem.Pause();
+		Debug.Log("reset "+points.Length+" particles");
+
 	}
 	void Awake(){
-		particleSystem.loop=false;
-		particleSystem.enableEmission=false;
-		particleSystem.playOnAwake=false;
+		particleSystem.loop=true;
+		particleSystem.enableEmission=true;
+		particleSystem.playOnAwake=true;
 		particleSystem.renderer.castShadows=false;
 		particleSystem.renderer.receiveShadows=false;
+		Debug.Log("Awakened");
+	}
+	void Start(){
+		ResetParticles();
 	}
 	void OnEnable(){
 		ResetParticles();
+		Debug.Log("on enable");
 	}
 
 	[SerializeField]

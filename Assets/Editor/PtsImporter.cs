@@ -15,16 +15,15 @@ public class PtsImporter : AssetPostprocessor {
 				go.hideFlags = HideFlags.NotEditable;
 
 
-				/*
-				ParticleSystem ps = go.AddComponent<ParticleSystem>();
-				ps.loop=false;
-				ps.enableEmission=false;
-				ps.playOnAwake=false;
+				PointCloud pc = go.AddComponent<PointCloud>();
+
+				ParticleSystem ps = go.particleSystem;
+				ps.loop=true;
+				Debug.LogWarning("To get frustum culling working you need to set Prewarm option to true manually in "+prefabPath+" and if it's still not ok set the shape to box ahd it's size to match your pointcloud dimension");
+				ps.enableEmission=true;
+				ps.playOnAwake=true;
 				ps.renderer.castShadows=false;
 				ps.renderer.receiveShadows=false;
-				*/
-
-				PointCloud pc = go.AddComponent<PointCloud>();
 
 				go.particleSystem.renderer.material = AssetDatabase.LoadAssetAtPath("Assets/Point.mat", typeof(Material)) as Material;
 

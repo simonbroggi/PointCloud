@@ -16,7 +16,9 @@ public class FileLoader : MonoBehaviour {
 		TextAsset ptsFile = Resources.Load("examplePts") as TextAsset;
 
 		//LoadFile(ptsFile.text);
-		LoadMesh(cloudMesh);
+		if(cloudMesh != null){
+			LoadMesh(cloudMesh);
+		}
 
 
 		//LoadFile("7     \n0.5955505 0.8973999 0.2449951 -1934 125 118 102\n35.5955505 -179.8973999 1861.2449951 -1934 125 118 102\n35.5770302 -179.9205170 1861.1866455 -1913 181 173 160\n35.5856400 -179.9092102 1861.1351318 -1921 161 155 141\n35.5833511 -179.9119873 1861.0806885 -1917 194 188 174\n35.5838661 -179.9111328 1861.0270996 -1912 195 189 173\n35.5815773 -179.9139099 1860.9726563 -1914 193 187 171");
@@ -69,11 +71,13 @@ public class FileLoader : MonoBehaviour {
 	string dbgString = "nothing jet";
 	void OnGUI(){
 		GUI.Label(new Rect(20, Screen.height/2, 220, 80), dbgString);
-		float newPointSize = GUI.HorizontalSlider(new Rect(50, 50, 220, 50), pc.pointSize, 0.001f, 2f);
-		if(newPointSize != pc.pointSize){
-			foreach(PointCloud c in clouds){
-				c.pointSize = newPointSize;
-				c.ResetParticles();
+		if(pc != null){
+			float newPointSize = GUI.HorizontalSlider(new Rect(50, 50, 220, 50), pc.pointSize, 0.001f, 2f);
+			if(newPointSize != pc.pointSize){
+				foreach(PointCloud c in clouds){
+					c.pointSize = newPointSize;
+					c.ResetParticles();
+				}
 			}
 		}
 	}
