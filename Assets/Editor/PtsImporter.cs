@@ -8,7 +8,7 @@ public class PtsImporter : AssetPostprocessor {
 
 	static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPath){
 		foreach(string s in importedAssets){
-			if(s.EndsWith(".pts")){
+			if(s.EndsWith(".pts") || s.EndsWith(".ply")){
 
 				string prefabPath = s.Substring(0, s.Length-4) + ".prefab";
 				GameObject go = new GameObject("tempObject");
@@ -31,8 +31,12 @@ public class PtsImporter : AssetPostprocessor {
 				try{
 					using(StreamReader sr = new StreamReader(s)){
 						Debug.Log("loading points!!!");
-						pc.LoadPointsFromPts(sr.ReadToEnd());
-
+						if(s.EndsWith(".pts")){
+							pc.LoadPointsFromPts(sr.ReadToEnd());
+						}
+						else if(s.EndsWith(".ply")){
+							pc.LoadPointsFromPly(sr.ReadToEnd());
+						}
 					}
 				}
 				catch(Exception e){

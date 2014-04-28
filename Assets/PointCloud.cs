@@ -81,6 +81,54 @@ public class PointCloud : MonoBehaviour {
 		}
 	}
 
+	public void LoadPointsFromPly(string f){
+		string[] lines = f.Split('\n');
+		
+		int startLine = 0;
+		int numPoints = 0;
+		for(int i = 0; !lines[i].Equals("end_header"); i++){
+			//read header
+			if( lines[i].StartsWith("element vertex") ){
+				numPoints = int.Parse(lines[i].Substring(15, lines[i].Length-15));
+			}
+			
+			startLine = i+2;
+		}
+
+		points = new CloudPoint[numPoints];
+		particleSystem.maxParticles = numPoints;
+		if(numPoints <= 0){
+			Debug.LogWarning("no points in the file");
+			return;
+		}
+
+		//find the bounds and set transform to the center
+		float minX=float.PositiveInfinity, maxX=float.NegativeInfinity, minY=float.PositiveInfinity, maxY=float.NegativeInfinity, minZ=float.PositiveInfinity, maxZ=float.NegativeInfinity;
+		
+		for(int i=0; i<numPoints; i++){
+			string [] values = lines[i+startLine].Split(' ');
+			points[i]=new CloudPoint();
+
+			points[i].pos = new Vector3( -float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]) );
+			points[i].col = new Color32(byte.Parse(values[3]), byte.Parse(values[4]), byte.Parse(values[5]), byte.MaxValue);
+
+			//set min max
+			if(points[i].pos.x > maxX) maxX = points[i].pos.x;
+			if(points[i].pos.x < minX) minX = points[i].pos.x;
+			if(points[i].pos.y > maxY) maxY = points[i].pos.y;
+			if(points[i].pos.y < minY) minY = points[i].pos.y;
+			if(points[i].pos.z > maxZ) maxZ = points[i].pos.z;
+			if(points[i].pos.z < minZ) minZ = points[i].pos.z;
+		}
+		cloudDimensions = new Vector3(maxX - minX, maxY - minY, maxZ - minZ);
+		Vector3 centerPos = new Vector3((minX+maxX)/2f, (minY+maxY)/2f, (minZ+maxZ)/2f);
+		//Debug.Log("center:"+centerPos);
+		foreach(CloudPoint cp in points){
+			cp.pos -= centerPos;
+		}
+		transform.position = centerPos;
+	}
+
 	public void LoadPointsFromPts(string f){
 		string[] lines = f.Split('\n');
 		
