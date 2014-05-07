@@ -124,6 +124,15 @@ public class PointCloudLODGroup : MonoBehaviour {
 				}
 				else{
 					pointLods[x] = new PointCloudLOD();
+
+					//set default point size values
+					if(x == 1){
+						pointLods[x].pointSize = 0.004f;
+					}
+					else if(x == 2){
+						pointLods[x].pointSize = 0.241f;
+					}
+
 				}
 			}
 
@@ -177,6 +186,21 @@ public class PointCloudLODGroup : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+		Vector3 nearClipCenter = Camera.main.transform.position + Camera.main.transform.forward * Camera.main.nearClipPlane;
+		float dist =  Vector3.Distance(transform.position, nearClipCenter);
+
+		float lodSwitchAt = 3f;
+
+		if(currentLOD == 2 && dist < lodSwitchAt){
+			currentLOD = 1;
+			ResetParticles();
+			Debug.Log(gameObject.name + " LOD set to "+currentLOD);
+		}
+		else if(currentLOD == 1 && dist >= lodSwitchAt){
+			currentLOD = 2;
+			ResetParticles();
+			Debug.Log(gameObject.name + " LOD set to "+currentLOD);
+		}
+
 	}
 }
