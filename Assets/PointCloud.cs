@@ -59,7 +59,7 @@ public class PointCloud : MonoBehaviour {
 	}
 
 	[SerializeField]
-	private Vector3 cloudDimensions;
+	public Vector3 cloudDimensions;
 	void OnDrawGizmos(){
 		Gizmos.DrawWireCube(transform.position, cloudDimensions);
 	}

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PointCloudSpawner : MonoBehaviour {
 	
-	private ParticleSystem.Particle[] points;
+//	private ParticleSystem.Particle[] points;
 	private int numPoints;
 	
 	private GUIStyle guiStyle;
@@ -22,7 +22,7 @@ public class PointCloudSpawner : MonoBehaviour {
 	void OnGUI () {
 		if(GUI.Button(new Rect(50, 50, 220, 80), "More Points")){
 			particleSystem.Emit(10000);
-			numPoints = particleSystem.GetParticles(points);
+//			numPoints = particleSystem.GetParticles(points);
 		}
 		
 		GUI.Label(new Rect(Screen.width-270, 50, 220, 80), "n: " + particleSystem.particleCount, guiStyle);

@@ -8,7 +8,7 @@ public class PtsImporter : AssetPostprocessor {
 
 	static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPath){
 		foreach(string s in importedAssets){
-			if(s.EndsWith(".pts") || s.EndsWith(".ply") || s.EndsWith(".xyz")){
+			if(s.EndsWith(".pts") || s.EndsWith(".ply")){
 
 				string prefabPath = s.Substring(0, s.Length-4) + ".prefab";
 				GameObject go = new GameObject("tempObject");
@@ -37,16 +37,13 @@ public class PtsImporter : AssetPostprocessor {
 						else if(s.EndsWith(".ply")){
 							pc.LoadPointsFromPly(sr.ReadToEnd());
 						}
-						else if(s.EndsWith(".xyz")){
-							pc.LoadPointsFromXyz(sr.ReadToEnd());
-						}
 					}
 				}
 				catch(Exception e){
 					Debug.LogError(e);
 				}
 
-				GameObject prefab = PrefabUtility.CreatePrefab(prefabPath, go);
+				PrefabUtility.CreatePrefab(prefabPath, go);
 				GameObject.DestroyImmediate(go);
 
 				Debug.Log("imported asset "+s);
@@ -68,6 +65,5 @@ public class PtsImporter : AssetPostprocessor {
 			}
 		}
 
-		Debug.Log("OnPostprocess *.pts Assets end");
 	}
 }

@@ -2,16 +2,18 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor(typeof(PointCloud))]
+[CustomEditor(typeof(PointCloudLODGroup))]
 [CanEditMultipleObjects]
-public class PointCloudEditor : Editor {
+public class PointCloudLODGroupEditor : Editor {
 
-	SerializedProperty pointSize;
-
+	SerializedProperty currentLOD;
+	SerializedProperty pointLods;
 	void OnEnable(){
-		PointCloud pc = target as PointCloud;
+		PointCloudLODGroup pc = target as PointCloudLODGroup;
 
-		pointSize = serializedObject.FindProperty("pointSize");
+		currentLOD = serializedObject.FindProperty("currentLOD");
+
+		pointLods = serializedObject.FindProperty("pointLods");
 
 		//pc.particleSystem.hideFlags = HideFlags.HideInInspector;
 		pc.ResetParticles();
@@ -23,15 +25,18 @@ public class PointCloudEditor : Editor {
 
 		//GUILayout.Label("Custom "+serializedObject.GetType().ToString());
 
-		EditorGUILayout.Slider(pointSize, 0.001f, 2f);
+		EditorGUILayout.IntSlider(currentLOD, 0, 4);
+		EditorGUILayout.Slider(pointLods.GetArrayElementAtIndex(currentLOD.intValue).FindPropertyRelative("pointSize"), 0.001f, 1f);
 
 		serializedObject.ApplyModifiedProperties();
+
 		int pointsTotal = 0;
 		foreach(Object t in targets){
-			if(t is PointCloud){
-				PointCloud pc = t as PointCloud;
+			if(t is PointCloudLODGroup){
+				PointCloudLODGroup pc = t as PointCloudLODGroup;
 				//GUILayout.Label(pc.transform.position.ToString());
-				GUILayout.Label(pc.cloudDimensions.ToString());
+				//GUILayout.Label(pc.cloudDimensions.ToString());
+				GUILayout.Label(pc.lodStats);
 				//GUILayout.Label(pc.nPoints+" Points");
 				pointsTotal += pc.nPoints;
 				//GUILayout.Label(pc.particleSystem.IsAlive()?"Alive":"Dead");

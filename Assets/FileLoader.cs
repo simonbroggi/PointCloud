@@ -13,7 +13,7 @@ public class FileLoader : MonoBehaviour {
 	void Start () {
 		dbgString = "started";
 
-		TextAsset ptsFile = Resources.Load("examplePts") as TextAsset;
+		//TextAsset ptsFile = Resources.Load("examplePts") as TextAsset;
 
 		//LoadFile(ptsFile.text);
 		if(cloudMesh != null){
@@ -25,7 +25,7 @@ public class FileLoader : MonoBehaviour {
 
 	}
 	
-	private Vector3 offset = new Vector3(10, 0, 0);
+//	private Vector3 offset = new Vector3(10, 0, 0);
 	private int num = 1;
 	public Material pointsMaterial;
 	public Transform cameraRotater;
