@@ -36,7 +36,7 @@ public class FileLoader : MonoBehaviour {
 		
 		GameObject go = new GameObject("PointCloud");
 		pc = go.AddComponent<PointCloud>();
-		pc.particleSystem.renderer.material = pointsMaterial;
+		pc.GetComponent<ParticleSystem>().GetComponent<Renderer>().material = pointsMaterial;
 		
 		//GameObject p = new GameObject("pointcloud");
 		//PointCloud pc = Instantiate(pointCloudPrefab) as PointCloud; //p.AddComponent<ParticleSystem>();
@@ -59,7 +59,7 @@ public class FileLoader : MonoBehaviour {
 	public void LoadMesh(Mesh m){
 		GameObject go = new GameObject("PointCloudMesh");
 		pc = go.AddComponent<PointCloud>();
-		pc.particleSystem.renderer.material = pointsMaterial;
+		pc.GetComponent<ParticleSystem>().GetComponent<Renderer>().material = pointsMaterial;
 
 		pc.LoadPointsFromMesh(m);
 		pc.ResetParticles();

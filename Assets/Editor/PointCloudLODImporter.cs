@@ -33,13 +33,13 @@ public class PointCloudLODImporter : AssetPostprocessor {
 					pc = pcPrefabInstance.GetComponent<PointCloudLODGroup>();
 				}
 
-				ParticleSystem ps = pcPrefabInstance.particleSystem;
+				ParticleSystem ps = pcPrefabInstance.GetComponent<ParticleSystem>();
 				ps.loop=true;
 				ps.enableEmission=false;
 				ps.playOnAwake=true;
-				ps.renderer.castShadows=false;
-				ps.renderer.receiveShadows=false;
-				ps.renderer.material = AssetDatabase.LoadAssetAtPath("Assets/Point.mat", typeof(Material)) as Material;
+				ps.GetComponent<Renderer>().castShadows=false;
+				ps.GetComponent<Renderer>().receiveShadows=false;
+				ps.GetComponent<Renderer>().material = AssetDatabase.LoadAssetAtPath("Assets/Point.mat", typeof(Material)) as Material;
 				Debug.LogWarning("To get frustum culling working you need to set Prewarm option to true manually in "+prefabPath+" and if it's still not ok set the shape to box ahd it's size to match your pointcloud dimension");
 
 				

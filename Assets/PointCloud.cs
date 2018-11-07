@@ -30,24 +30,24 @@ public class PointCloud : MonoBehaviour {
 			particles[i].position = points[i].pos;
 			particles[i].color = points[i].col;
 			particles[i].size = pointSize;
-			particles[i].lifetime = float.PositiveInfinity;
+			particles[i].remainingLifetime = float.PositiveInfinity;
 			particles[i].velocity = Vector3.zero;
 			//if(i%10==0) Debug.Log(points[i].pos);
 
 			//particleSystem.Emit(points[i].pos, Vector3.zero, pointSize, float.PositiveInfinity, Color.red);
 
 		}
-		particleSystem.SetParticles(particles, points.Length);
-		particleSystem.Pause();
+		GetComponent<ParticleSystem>().SetParticles(particles, points.Length);
+		GetComponent<ParticleSystem>().Pause();
 		Debug.Log("reset "+points.Length+" particles");
 
 	}
 	void Awake(){
-		particleSystem.loop=true;
-		particleSystem.enableEmission=true;
-		particleSystem.playOnAwake=true;
-		particleSystem.renderer.castShadows=false;
-		particleSystem.renderer.receiveShadows=false;
+		GetComponent<ParticleSystem>().loop=true;
+		GetComponent<ParticleSystem>().enableEmission=true;
+		GetComponent<ParticleSystem>().playOnAwake=true;
+		GetComponent<ParticleSystem>().GetComponent<Renderer>().castShadows=false;
+		GetComponent<ParticleSystem>().GetComponent<Renderer>().receiveShadows=false;
 		Debug.Log("Awakened");
 	}
 	void Start(){
@@ -66,7 +66,7 @@ public class PointCloud : MonoBehaviour {
 
 	public void LoadPointsFromMesh(Mesh m){
 		points = new CloudPoint[m.vertexCount];
-		particleSystem.maxParticles = m.vertexCount;
+		GetComponent<ParticleSystem>().maxParticles = m.vertexCount;
 		Debug.Log(m.vertices.Length+" Verts;  "+m.colors.Length+" colors;  "+m.colors32.Length+" color32");
 		for(int i=0; i<m.vertexCount; i++){
 			points[i] = new CloudPoint();
@@ -88,7 +88,7 @@ public class PointCloud : MonoBehaviour {
 		int numPoints = lines.Length-1; //expects last line to be empty
 		
 		points = new CloudPoint[numPoints];
-		particleSystem.maxParticles = numPoints;
+		GetComponent<ParticleSystem>().maxParticles = numPoints;
 		if(numPoints <= 0){
 			Debug.LogWarning("no points in the file");
 			return;
@@ -143,7 +143,7 @@ public class PointCloud : MonoBehaviour {
 		}
 
 		points = new CloudPoint[numPoints];
-		particleSystem.maxParticles = numPoints;
+		GetComponent<ParticleSystem>().maxParticles = numPoints;
 		if(numPoints <= 0){
 			Debug.LogWarning("no points in the file");
 			return;
@@ -190,7 +190,7 @@ public class PointCloud : MonoBehaviour {
 
 		//Debug.Log("num points: "+numPoints);
 		points = new CloudPoint[numPoints];
-		particleSystem.maxParticles = numPoints;
+		GetComponent<ParticleSystem>().maxParticles = numPoints;
 		if(numPoints <= 0){
 			Debug.LogWarning("no points in the file");
 			return;

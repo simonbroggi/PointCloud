@@ -21,10 +21,10 @@ public class PointCloudSpawner : MonoBehaviour {
 	
 	void OnGUI () {
 		if(GUI.Button(new Rect(50, 50, 220, 80), "More Points")){
-			particleSystem.Emit(10000);
+			GetComponent<ParticleSystem>().Emit(10000);
 //			numPoints = particleSystem.GetParticles(points);
 		}
 		
-		GUI.Label(new Rect(Screen.width-270, 50, 220, 80), "n: " + particleSystem.particleCount, guiStyle);
+		GUI.Label(new Rect(Screen.width-270, 50, 220, 80), "n: " + GetComponent<ParticleSystem>().particleCount, guiStyle);
 	}
 }

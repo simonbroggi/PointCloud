@@ -48,7 +48,7 @@ public class PointCloudLODGroup : MonoBehaviour {
 	}
 	public void ResetParticles(int lod){
 		if(lod<0 || lod>=pointLods.Length){
-			particleSystem.Pause();
+			GetComponent<ParticleSystem>().Pause();
 			return;
 		}
 		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[pointLods[lod].Length];
@@ -61,25 +61,25 @@ public class PointCloudLODGroup : MonoBehaviour {
 			particles[i].position = pointLods[lod].points[i].pos;
 			particles[i].color = pointLods[lod].points[i].col;
 			particles[i].size = pointLods[lod].pointSize;
-			particles[i].lifetime = float.PositiveInfinity;
+			particles[i].remainingLifetime = float.PositiveInfinity;
 			particles[i].velocity = Vector3.zero;
 			//if(i%10==0) Debug.Log(points[i].pos);
 			
 			//particleSystem.Emit(points[i].pos, Vector3.zero, pointSize, float.PositiveInfinity, Color.red);
 			
 		}
-		particleSystem.SetParticles(particles, pointLods[lod].Length);
-		particleSystem.Pause();
+		GetComponent<ParticleSystem>().SetParticles(particles, pointLods[lod].Length);
+		GetComponent<ParticleSystem>().Pause();
 		Debug.Log("reset "+pointLods[lod].Length+" particles");
 		
 	}
 
 	void Awake(){
-		particleSystem.loop=true;
-		particleSystem.enableEmission=true;
-		particleSystem.playOnAwake=true;
-		particleSystem.renderer.castShadows=false;
-		particleSystem.renderer.receiveShadows=false;
+		GetComponent<ParticleSystem>().loop=true;
+		GetComponent<ParticleSystem>().enableEmission=true;
+		GetComponent<ParticleSystem>().playOnAwake=true;
+		GetComponent<ParticleSystem>().GetComponent<Renderer>().castShadows=false;
+		GetComponent<ParticleSystem>().GetComponent<Renderer>().receiveShadows=false;
 		Debug.Log("Awakened");
 	}
 	void Start(){
@@ -141,7 +141,7 @@ public class PointCloudLODGroup : MonoBehaviour {
 
 		pointLods[destLOD].points = new PointCloud.CloudPoint[numPoints];
 
-		particleSystem.maxParticles = Mathf.Max(particleSystem.maxParticles, numPoints);
+		GetComponent<ParticleSystem>().maxParticles = Mathf.Max(GetComponent<ParticleSystem>().maxParticles, numPoints);
 		if(numPoints <= 0){
 			Debug.LogWarning("no points in the file");
 			return;
