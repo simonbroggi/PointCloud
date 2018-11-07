@@ -13,12 +13,12 @@ public class FileLoader : MonoBehaviour {
 	void Start () {
 		dbgString = "started";
 
-		//TextAsset ptsFile = Resources.Load("examplePts") as TextAsset;
+		TextAsset ptsFile = Resources.Load("examplePts") as TextAsset;
 
-		//LoadFile(ptsFile.text);
-		if(cloudMesh != null){
-			LoadMesh(cloudMesh);
-		}
+		LoadFile(ptsFile.text);
+		// if(cloudMesh != null){
+		// 	LoadMesh(cloudMesh);
+		// }
 
 
 		//LoadFile("7     \n0.5955505 0.8973999 0.2449951 -1934 125 118 102\n35.5955505 -179.8973999 1861.2449951 -1934 125 118 102\n35.5770302 -179.9205170 1861.1866455 -1913 181 173 160\n35.5856400 -179.9092102 1861.1351318 -1921 161 155 141\n35.5833511 -179.9119873 1861.0806885 -1917 194 188 174\n35.5838661 -179.9111328 1861.0270996 -1912 195 189 173\n35.5815773 -179.9139099 1860.9726563 -1914 193 187 171");
@@ -37,6 +37,7 @@ public class FileLoader : MonoBehaviour {
 		GameObject go = new GameObject("PointCloud");
 		pc = go.AddComponent<PointCloud>();
 		pc.GetComponent<ParticleSystem>().GetComponent<Renderer>().material = pointsMaterial;
+		pc.pointSize = 0.1f;
 		
 		//GameObject p = new GameObject("pointcloud");
 		//PointCloud pc = Instantiate(pointCloudPrefab) as PointCloud; //p.AddComponent<ParticleSystem>();
